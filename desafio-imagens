@@ -1,0 +1,56 @@
+from PIL import Image, ImageFilter, ImageOps
+import os
+
+def abrir_imagem(caminho):
+    try:
+        imagem = Image.open(caminho)
+        return imagem
+    except IOError:
+        print(f"Erro ao abrir a imagem: {caminho}")
+        return None
+
+def salvar_imagem(imagem, caminho):
+    try:
+        imagem.save(caminho)
+        print(f"Imagem salva em: {caminho}")
+    except IOError:
+        print(f"Erro ao salvar a imagem: {caminho}")
+
+def redimensionar(imagem, largura, altura):
+    return imagem.resize((largura, altura))
+
+def aplicar_filtro(imagem):
+    return imagem.filter(ImageFilter.CONTOUR)
+
+def converter_preto_e_branco(imagem):
+    return ImageOps.grayscale(imagem)
+
+def rotacionar(imagem, angulo):
+    return imagem.rotate(angulo)
+
+def main():
+    input_path = "images/input_image.jpg"
+    output_path = "images/output_image.jpg"
+    
+    imagem = abrir_imagem(input_path)
+    if imagem is None:
+        return
+
+    print("Redimensionando imagem...")
+    imagem_redimensionada = redimensionar(imagem, 800, 600)
+    salvar_imagem(imagem_redimensionada, "images/redimensionada.jpg")
+
+    print("Aplicando filtro...")
+    imagem_filtro = aplicar_filtro(imagem)
+    salvar_imagem(imagem_filtro, "images/filtro.jpg")
+
+    print("Convertendo para preto e branco...")
+    imagem_pb = converter_preto_e_branco(imagem)
+    salvar_imagem(imagem_pb, "images/preto_e_branco.jpg")
+
+    print("Rotacionando imagem...")
+    imagem_rotacionada = rotacionar(imagem, 45)
+    salvar_imagem(imagem_rotacionada, "images/rotacionada.jpg")
+
+if __name__ == "__main__":
+    main()
