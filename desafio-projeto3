@@ -1,0 +1,45 @@
+class ContaBancaria:
+    def __init__(self, numero, agencia, cliente):
+        self.numero = numero
+        self.agencia = agencia
+        self.cliente = cliente
+        self.saldo = 0.0
+        self.historico = []
+
+    def sacar(self, valor):
+        if valor <= 0:
+            print("O valor para saque deve ser positivo.")
+            return
+        if valor > self.saldo:
+            print("Saldo insuficiente.")
+            return
+        self.saldo -= valor
+        self.historico.append(f"Saque: R${valor:.2f}")
+        print(f"Saque de R${valor:.2f} realizado com sucesso.")
+
+    def depositar(self, valor):
+        if valor <= 0:
+            print("O valor para depósito deve ser positivo.")
+            return
+        self.saldo += valor
+        self.historico.append(f"Depósito: R${valor:.2f}")
+        print(f"Depósito de R${valor:.2f} realizado com sucesso.")
+
+    def mostrar_historico(self):
+        print("Histórico de transações:")
+        for transacao in self.historico:
+            print(transacao)
+        print(f"Saldo atual: R${self.saldo:.2f}")
+
+# Exemplo de uso
+if __name__ == "__main__":
+    conta = ContaBancaria(numero="12345", agencia="678", cliente="João Silva")
+    
+    print("Criando conta...")
+    conta.depositar(1000.0)
+    conta.sacar(200.0)
+    conta.sacar(100.0)
+    conta.depositar(500.0)
+    
+    print("\nMostrando histórico e saldo:")
+    conta.mostrar_historico()
